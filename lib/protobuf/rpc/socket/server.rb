@@ -1,3 +1,6 @@
+require 'celluloid/current'
+require 'celluloid/io'
+
 module Protobuf
   module Rpc
     module Socket

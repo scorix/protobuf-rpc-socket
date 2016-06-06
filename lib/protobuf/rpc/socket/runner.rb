@@ -1,4 +1,6 @@
 # frozen-string-literal: true
+require 'celluloid/current'
+require 'celluloid/io'
 
 module Protobuf
   module Rpc
