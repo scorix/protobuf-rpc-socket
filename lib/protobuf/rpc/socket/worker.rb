@@ -1,3 +1,6 @@
+require 'celluloid/current'
+require 'celluloid/io'
+
 module Protobuf
   module Rpc
     module Socket
@@ -23,7 +26,7 @@ module Protobuf
           @buffer.set_data(data)
           socket.send(@buffer.write, 0)
           reset_buffer
-          @complete_cb.call(socket)
+          @complete_cb.call(socket) if @complete_cb
         end
 
         def reset_buffer
