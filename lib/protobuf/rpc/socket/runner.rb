@@ -40,7 +40,11 @@ module Protobuf
             end
           end
 
-          set_middleware
+          logger.debug { "Using middleware: Protobuf::ActiveRecord::Middleware::ConnectionManagement"}
+          Protobuf::Rpc.middleware.use(Protobuf::ActiveRecord::Middleware::ConnectionManagement)
+          logger.debug { "Using middleware: Protobuf::ActiveRecord::Middleware::QueryCache"}
+          Protobuf::Rpc.middleware.use(Protobuf::ActiveRecord::Middleware::QueryCache)
+
           async.start
         end
 
@@ -61,15 +65,6 @@ module Protobuf
         def stop
           @running = false
           logger.info { sign_message("Stopping Runner[#{Thread.current}]") }
-        end
-
-        def set_middleware
-          if defined?(Protobuf::ActiveRecord::Middleware)
-            logger.debug { "Using middleware: Protobuf::ActiveRecord::Middleware::ConnectionManagement"}
-            Protobuf::Rpc.middleware.use(Protobuf::ActiveRecord::Middleware::ConnectionManagement)
-            logger.debug { "Using middleware: Protobuf::ActiveRecord::Middleware::QueryCache"}
-            Protobuf::Rpc.middleware.use(Protobuf::ActiveRecord::Middleware::QueryCache)
-          end
         end
       end
     end

@@ -5,11 +5,6 @@ module Protobuf
 
         include Protobuf::Logging
 
-        def initialize
-          Protobuf::Rpc.middleware.use(Protobuf::ActiveRecord::Middleware::ConnectionManagement)
-          Protobuf::Rpc.middleware.use(Protobuf::ActiveRecord::Middleware::QueryCache)
-        end
-
         def call(env, socket)
           req = socket.read(socket.gets('-').to_i)
           if req
